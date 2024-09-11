@@ -1,0 +1,7 @@
+neo_favicon.settings:
+  path: '/admin/config/neo/favicon'
+  defaults:
+    _title: 'Neo Favicon Settings'
+    _form: 'Drupal\neo_favicon\Form\SettingsForm'
+  requirements:
+    _permission: 'administer neo_favicon'

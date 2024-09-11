@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Neo | Favicon module.
+ */
+
+use Drupal\Core\Cache\Cache;
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function neo_favicon_page_attachments_alter(array &$attachments) {
+  $cid = 'neo_favicon';
+  $data = \Drupal::cache()->get($cid);
+  if (!$data || TRUE) {
+    $config = \Drupal::config('neo_favicon.settings');
+    $file = $config->get('file');
+    $tags = $config->get('tags');
+    if ($file && $tags) {
+      /** @var \Drupal\Core\File\FileUrlGeneratorInterface $url_generator */
+      $urlGenerator = \Drupal::service('file_url_generator');
+      // $html = array_filter(explode(PHP_EOL, $tags));
+      $data = [];
+      $dom = new \DOMDocument();
+      $dom->loadHTML($tags);
+
+      // Find all icons.
+      $tags = $dom->getElementsByTagName('link');
+      foreach ($tags as $tag) {
+        if ($tag instanceof DOMElement) {
+          $file_path = 'public://neo-favicon' . $tag->getAttribute('href');
+          if (file_exists($file_path)) {
+            $tag->setAttribute('href', $urlGenerator->generateString($file_path));
+            $data[] = $dom->saveXML($tag);
+          }
+        }
+      }
+
+      // Find any Windows 8 meta tags.
+      $tags = $dom->getElementsByTagName('meta');
+      foreach ($tags as $tag) {
+        if ($tag instanceof DOMElement) {
+          $data[] = $dom->saveXML($tag);
+        }
+      }
+      $data = implode(PHP_EOL, $data) . PHP_EOL;
+      \Drupal::cache()->set($cid, $data, Cache::PERMANENT, ['config:neo_favicon.settings']);
+    }
+  }
+  if (!empty($data)) {
+    // Remove default favicon from html_head_link.
+    if (!empty($attachments['#attached']['html_head_link'])) {
+      foreach ($attachments['#attached']['html_head_link'] as $i => $item) {
+        if (!empty($item) && is_array($item)) {
+          foreach ($item as $ii => $iitem) {
+            if (isset($iitem['rel']) && in_array($iitem['rel'], ['shortcut icon', 'icon'])) {
+              unset($attachments['#attached']['html_head_link'][$i][$ii]);
+            }
+          }
+          if (empty($attachments['#attached']['html_head_link'][$i])) {
+            unset($attachments['#attached']['html_head_link'][$i]);
+          }
+        }
+      }
+      if (empty($attachments['#attached']['html_head_link'])) {
+        unset($attachments['#attached']['html_head_link']);
+      }
+    }
+    // Attach favicon tags.
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'markup',
+        '#markup' => $data,
+        '#allowed_tags' => ['link', 'meta'],
+        '#cache' => [
+          'tags' => ['config:neo_favicon.settings'],
+        ],
+      ],
+      'real_favicon',
+    ];
+  }
+}

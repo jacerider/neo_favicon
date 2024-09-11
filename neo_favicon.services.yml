@@ -1,0 +1,6 @@
+services:
+  neo_favicon.event_subscriber:
+    class: Drupal\neo_favicon\EventSubscriber\FaviconConfigFileSubscriber
+    arguments: ['@plugin.manager.archiver', '@file_system']
+    tags:
+      - { name: event_subscriber }

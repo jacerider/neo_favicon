@@ -1,0 +1,24 @@
+{
+  "name": "jacerider/neo_favicon",
+  "description": "A favicon generator utilizing http://realfavicongenerator.net.",
+  "type": "drupal-module",
+  "license": "proprietary",
+  "homepage": "https://github.com/jacerider/neo_favicon",
+  "authors": [
+    {
+      "name": "Cyle Carlson (JaceRider)",
+      "email": "jacerider@gmail.com",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/jacerider/neo_favicon/issues",
+    "source": "https://github.com/jacerider/neo_favicon"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "drupal/core": "^10.3",
+    "jacerider/neo": "^1",
+    "jacerider/neo_config_file": "^1"
+  }
+}
