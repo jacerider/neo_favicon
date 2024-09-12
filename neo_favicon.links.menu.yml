@@ -3,4 +3,3 @@ neo_favicon.settings:
   description: Configure site favicon.
   parent: system.admin_config_neo
   route_name: neo_favicon.settings
-  weight: 10
