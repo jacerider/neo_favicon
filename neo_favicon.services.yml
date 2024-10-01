@@ -4,3 +4,7 @@ services:
     arguments: ['@plugin.manager.archiver', '@file_system']
     tags:
       - { name: event_subscriber }
+
+  neo_favicon.manager:
+    class: Drupal\neo_favicon\FaviconManager
+    arguments: ['@config.factory', '@file_system', '@file_url_generator', '@cache.default']
