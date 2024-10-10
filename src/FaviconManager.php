@@ -84,7 +84,7 @@ final class FaviconManager {
           $data = implode(PHP_EOL, $data) . PHP_EOL;
           $this->cache->set($cid, $data, Cache::PERMANENT, ['config:neo_favicon.settings']);
         }
-        $this->data = $data;
+        $this->data = $data ?: '';
       }
     }
     return $this->data;
