@@ -113,6 +113,9 @@ final class Favicon extends ToolbarItemPluginBase {
         $build['#prefix'] = '<div class="flex items-center justify-center bg-primary-500 w-12 h-12 p-1 rounded">';
         $build['#suffix'] = '</div>';
         $build['#attributes']['class'][] = 'w-auto';
+        if (strpos($uri, 'mstile')) {
+          $build['#attributes']['style'] = 'filter: brightness(0) invert(1);';
+        }
         $build = $this->renderer->render($build);
         $options[$uri] = Markup::create($build);
       }
@@ -145,6 +148,9 @@ final class Favicon extends ToolbarItemPluginBase {
   protected function getElement(): ToolbarItemElement {
     $element = parent::getElement();
     $element->setImage($this->configuration['image']);
+    if (strpos($this->configuration['image'], 'mstile')) {
+      $element->setImageAttribute('style', 'filter: brightness(0) invert(1);');
+    }
     $this->processSchemeElement($element);
     $this->linkProcessElement($element);
     return $element;
