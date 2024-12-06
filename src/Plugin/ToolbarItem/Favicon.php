@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\Core\Template\Attribute;
 use Drupal\neo_favicon\FaviconManager;
 use Drupal\neo_image\NeoImageStyle;
 use Drupal\neo_toolbar\Attribute\ToolbarItem;
