@@ -107,7 +107,6 @@ final class Favicon extends ToolbarItemPluginBase {
         $neoImageStyle = new NeoImageStyle();
         $neoImageStyle->cropSides();
         $neoImageStyle->scale(36, 36);
-        $neoImageStyle->cropSides();
         $build = $neoImageStyle->toRenderableFromUri($uri);
         $build['#prefix'] = '<div class="flex items-center justify-center bg-primary-500 w-12 h-12 p-1 rounded">';
         $build['#suffix'] = '</div>';
