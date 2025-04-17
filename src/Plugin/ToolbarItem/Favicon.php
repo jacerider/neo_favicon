@@ -53,7 +53,7 @@ final class Favicon extends ToolbarItemPluginBase {
     $plugin_definition,
     TransliterationInterface $transliteration,
     FaviconManager $favicon_manager,
-    RendererInterface $renderer
+    RendererInterface $renderer,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $transliteration);
     $this->faviconManager = $favicon_manager;
