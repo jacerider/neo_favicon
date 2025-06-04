@@ -5,6 +5,8 @@
  * Primary module hooks for Neo | Favicon module.
  */
 
+use Drupal\Core\Entity\ContentEntityInterface;
+
 /**
  * Implements hook_page_attachments_alter().
  */
@@ -58,4 +60,47 @@ function neo_favicon_theme(): array {
       'base hook' => 'neo_toolbar_element',
     ],
   ];
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function neo_favicon_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'neo_token_image' || $hook == 'neo_token_logo') {
+    // Move my_module_form_alter() to the end of the list.
+    $group = $implementations['neo_favicon'];
+    unset($implementations['neo_favicon']);
+    $implementations['neo_favicon'] = $group;
+  }
+}
+
+/**
+ * Implements hook_neo_token_logo_alter().
+ */
+function neo_favicon_neo_token_logo_alter(&$uri, &$params, ContentEntityInterface $entity) {
+  // Will only run if the URI is not already set.
+  if (!$uri) {
+    /** @var \Drupal\neo_favicon\FaviconManager $manager */
+    $manager = \Drupal::service('neo_favicon.manager');
+    $largestImage = [];
+
+    foreach ($manager->getImages() as $imageUri => $dimensions) {
+      $size = $dimensions['width'] * $dimensions['height'];
+      if (empty($largestImage) || $size > ($largestImage['size'] ?? 0)) {
+        $largestImage = [
+          'uri' => $imageUri,
+          'size' => $size,
+        ];
+      }
+    }
+
+    $uri = $largestImage['uri'] ?? NULL;
+  }
+}
+
+/**
+ * Implements hook_neo_token_image_alter().
+ */
+function neo_favicon_neo_token_image_alter(&$uri, &$params, ContentEntityInterface $entity) {
+  neo_favicon_neo_token_logo_alter($uri, $params, $entity);
 }
