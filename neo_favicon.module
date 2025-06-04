@@ -77,7 +77,7 @@ function neo_favicon_module_implements_alter(&$implementations, $hook) {
 /**
  * Implements hook_neo_token_logo_alter().
  */
-function neo_favicon_neo_token_logo_alter(&$uri, &$params, ContentEntityInterface $entity) {
+function neo_favicon_neo_token_logo_alter(&$uri, &$params, ?ContentEntityInterface $entity = NULL) {
   // Will only run if the URI is not already set.
   if (!$uri) {
     /** @var \Drupal\neo_favicon\FaviconManager $manager */
@@ -101,6 +101,6 @@ function neo_favicon_neo_token_logo_alter(&$uri, &$params, ContentEntityInterfac
 /**
  * Implements hook_neo_token_image_alter().
  */
-function neo_favicon_neo_token_image_alter(&$uri, &$params, ContentEntityInterface $entity) {
+function neo_favicon_neo_token_image_alter(&$uri, &$params, ?ContentEntityInterface $entity = NULL) {
   neo_favicon_neo_token_logo_alter($uri, $params, $entity);
 }
