@@ -105,7 +105,12 @@ final class FaviconManager {
         $this->images = $cache->data;
       }
       else {
-        foreach ($this->fileSystem->scanDirectory('public://neo-favicon', '/.*.png$/i') as $file) {
+        $this->images = [];
+        $directory = 'public://neo-favicon';
+        if (!file_exists($directory) || !is_dir($directory)) {
+          return $this->images;
+        }
+        foreach ($this->fileSystem->scanDirectory($directory, '/.*.png$/i') as $file) {
           if (file_exists($file->uri)) {
             $size = getimagesize($file->uri);
             $this->images[$file->uri] = [
