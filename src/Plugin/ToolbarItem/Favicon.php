@@ -145,7 +145,14 @@ final class Favicon extends ToolbarItemPluginBase {
    */
   protected function getElement(): ToolbarItemElement {
     $element = parent::getElement();
-    $element->setImage($this->configuration['image']);
+    if (file_exists($this->configuration['image'])) {
+      $element->setImage($this->configuration['image']);
+    }
+    else {
+      // Use the default favicon image.
+      $path = \Drupal::service('extension.list.module')->getPath('neo_favicon');
+      $element->setImage('/' . $path . '/images/favicon.png');
+    }
     if (strpos($this->configuration['image'], 'mstile')) {
       $element->setImageAttribute('style', 'filter: brightness(0) invert(1);');
     }
