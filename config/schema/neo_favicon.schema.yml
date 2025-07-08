@@ -9,3 +9,19 @@ neo_favicon.settings:
     tags:
       type: text
       label: 'Tags'
+
+neo_toolbar_item.settings.favicon:
+  type: neo_toolbar_item_settings
+  mapping:
+    url:
+      type: string
+      label: URL
+    target:
+      type: boolean
+      label: Open in new window
+    image:
+      type: string
+      label: Image
+    scheme:
+      type: string
+      label: Color Scheme
