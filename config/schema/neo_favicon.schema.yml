@@ -7,7 +7,7 @@ neo_favicon.settings:
       type: string
       label: 'File'
     tags:
-      type: text
+      type: string
       label: 'Tags'
 
 neo_toolbar_item.settings.favicon:
