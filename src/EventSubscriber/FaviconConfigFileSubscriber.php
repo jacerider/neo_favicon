@@ -50,6 +50,10 @@ final class FaviconConfigFileSubscriber implements EventSubscriberInterface {
    * Kernel response event handler.
    */
   public function onConfigFilePreDelete(ConfigFilePreDeleteEvent $event): void {
+    $configFile = $event->getConfigFile();
+    if ($configFile->getParentFormId() !== 'neo_favicon_settings') {
+      return;
+    }
     $this->fileSystem->deleteRecursive('public://neo-favicon');
   }
 
