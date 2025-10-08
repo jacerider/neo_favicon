@@ -25,3 +25,6 @@ neo_toolbar_item.settings.favicon:
     scheme:
       type: string
       label: Color Scheme
+    filter:
+      type: string
+      label: Filter
