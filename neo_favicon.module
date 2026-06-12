@@ -52,17 +52,6 @@ function neo_favicon_page_attachments_alter(array &$attachments) {
 }
 
 /**
- * Implements hook_theme().
- */
-function neo_favicon_theme(): array {
-  return [
-    'neo_toolbar_element__favicon' => [
-      'base hook' => 'neo_toolbar_element',
-    ],
-  ];
-}
-
-/**
  * Implements hook_module_implements_alter().
  */
 function neo_favicon_module_implements_alter(&$implementations, $hook) {

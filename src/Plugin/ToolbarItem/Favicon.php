@@ -85,6 +85,7 @@ final class Favicon extends ToolbarItemPluginBase {
       'url' => '',
       'target' => '',
       'image' => '',
+      'size' => '',
       'scheme' => '',
       'filter' => '',
     ];
@@ -106,7 +107,9 @@ final class Favicon extends ToolbarItemPluginBase {
       '#default_value' => $this->configuration['target'],
     ];
 
-    $options = [];
+    $options = [
+      '' => $this->t('Default'),
+    ];
     foreach ($this->faviconManager->getImages() as $uri => $data) {
       if ($data['width'] > 100) {
         $neoImageStyle = new NeoImageStyle();
@@ -128,13 +131,24 @@ final class Favicon extends ToolbarItemPluginBase {
 
     $form['image'] = [
       '#type' => 'radios',
-      '#title' => $this->t('Image') . time(),
+      '#title' => $this->t('Image'),
       '#options' => $options,
-      '#required' => TRUE,
       '#description' => $this->t('The favicon image.'),
       '#default_value' => $this->configuration['image'],
       '#prefix' => '<div id="' . $id . '-image">',
       '#suffix' => '</div>',
+    ];
+
+    $form['size'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Image Size'),
+      '#options' => $this->getSizeOptions(),
+      '#default_value' => $this->configuration['size'],
+      '#description' => $this->t('The image size.'),
+      '#ajax' => [
+        'callback' => [self::class, 'ajaxPreview'],
+        'wrapper' => $id . '-image',
+      ],
     ];
 
     $form['filter'] = [
@@ -176,11 +190,19 @@ final class Favicon extends ToolbarItemPluginBase {
     $element = parent::getElement();
     if (file_exists($this->configuration['image'])) {
       $element->setImage($this->configuration['image']);
+      $element->setImageSize(36, 36);
     }
     else {
       // Use the default favicon image.
       $path = \Drupal::service('extension.list.module')->getPath('neo_favicon');
       $element->setImage('/' . $path . '/images/favicon.png');
+    }
+    if ($size = $this->configuration['size']) {
+      if ($size === 'full') {
+        $element->addClass('relative');
+        $element->addImageClass('absolute top-0 left-0 w-full h-full object-cover');
+        $element->setImageSize(100, 100);
+      }
     }
     if ($filter = $this->configuration['filter']) {
       $element->setImageAttribute('style', $filter);
@@ -188,6 +210,19 @@ final class Favicon extends ToolbarItemPluginBase {
     $this->processSchemeElement($element);
     $this->linkProcessElement($element);
     return $element;
+  }
+
+  /**
+   * Get size options.
+   *
+   * @return array
+   *   The size options.
+   */
+  protected function getSizeOptions(): array {
+    return [
+      '' => $this->t('Default'),
+      'full' => $this->t('Full'),
+    ];
   }
 
   /**
@@ -199,6 +234,7 @@ final class Favicon extends ToolbarItemPluginBase {
   protected function getFilterOptions(): array {
     return [
       '' => $this->t('None'),
+      'full' => $this->t('Full'),
       'filter: brightness(0) invert(1);' => $this->t('Style 1'),
       'mix-blend-mode: screen; filter: invert(1) brightness(2);' => $this->t('Style 2'),
     ];

@@ -22,9 +22,12 @@ neo_toolbar_item.settings.favicon:
     image:
       type: string
       label: Image
+    size:
+      type: string
+      label: Image Size
     scheme:
       type: string
-      label: Color Scheme
+      label: Image Scheme
     filter:
       type: string
       label: Filter
