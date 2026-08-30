@@ -1,7 +1,11 @@
 services:
+  logger.channel.neo_favicon:
+    parent: logger.channel_base
+    arguments: ['neo_favicon']
+
   neo_favicon.event_subscriber:
     class: Drupal\neo_favicon\EventSubscriber\FaviconConfigFileSubscriber
-    arguments: ['@plugin.manager.archiver', '@file_system']
+    arguments: ['@neo_config_file.zip_extractor', '@file_system', '@logger.channel.neo_favicon']
     tags:
       - { name: event_subscriber }
 
