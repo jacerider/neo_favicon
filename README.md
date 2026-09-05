@@ -15,3 +15,7 @@ See: https://www.drupal.org/node/895232 for further information.
 
 Visit https://realfavicongenerator.net and generate a favicon package. Then
 visit /admin/config/neo/favicon to upload it and configure it for display.
+
+## CONTRIBUTING
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute to this module.
