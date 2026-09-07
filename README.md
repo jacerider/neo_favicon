@@ -19,3 +19,4 @@ visit /admin/config/neo/favicon to upload it and configure it for display.
 ## CONTRIBUTING
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute to this module.
+See [CHANGELOG.md](CHANGELOG.md) for notable changes.

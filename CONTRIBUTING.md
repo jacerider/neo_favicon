@@ -22,3 +22,10 @@ with a leading gitmoji, e.g. `✨ feat: add support for maskable icons`.
 
 Releases and tags are cut by the maintainer. Contributors should not tag or
 publish releases themselves.
+
+## Changelog
+
+Work that changes what a site observes gets an entry at the top of
+[CHANGELOG.md](CHANGELOG.md) in the same commit, written with no release
+line. The maintainer adds `_Released in X.Y.Z — YYYY-MM-DD._` under the
+heading when the release is tagged.
