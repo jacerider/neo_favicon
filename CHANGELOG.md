@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.18 — 2026-09-07
+
+- 📝 docs: document the changelog convention and link it from the README
+- 📝 docs(changelog): seed CHANGELOG.md from the tagged history
+- 📝 docs(neo_favicon): link CONTRIBUTING.md from README
+- 📝 docs: add CONTRIBUTING.md
+
 ## An unopenable favicon package leaves the installed icons in place
 
 _Released in 1.0.17 — 2026-08-31._
