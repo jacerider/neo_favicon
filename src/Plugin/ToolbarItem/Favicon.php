@@ -8,7 +8,6 @@ use Drupal\Component\Transliteration\TransliterationInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\neo_favicon\FaviconManager;
@@ -124,8 +123,7 @@ final class Favicon extends ToolbarItemPluginBase {
         }
         $tooltip = new Tooltip($uri);
         $tooltip->applyTo($build);
-        $build = $this->renderer->render($build);
-        $options[$uri] = Markup::create($build);
+        $options[$uri] = $this->renderer->renderInIsolation($build);
       }
     }
 
@@ -138,6 +136,9 @@ final class Favicon extends ToolbarItemPluginBase {
       '#prefix' => '<div id="' . $id . '-image">',
       '#suffix' => '</div>',
     ];
+    if (count($options) > 1) {
+      $form['image']['#attached']['library'][] = 'neo_tooltip/tooltip';
+    }
 
     $form['size'] = [
       '#type' => 'select',

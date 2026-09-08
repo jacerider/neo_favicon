@@ -1,5 +1,21 @@
 # Changelog
 
+## The favicon toolbar item form no longer fatals when a package is uploaded
+
+**`Favicon::itemForm()` renders each preview with `renderInIsolation()`.**
+`Renderer::render()` needs an open render context, and the toolbar item's
+edit and add forms are built during the controller step — before the page
+has one. The AJAX rebuild behind Image Size and Image Filter hits the same
+path. A site with no package uploaded never entered the preview loop; a
+site with a realfavicongenerator.net package (180px touch icon, 192/512px
+android icons, mstiles) got a `LogicException` instead of an image picker.
+
+**The tooltip library is re-attached on the image radios.** Isolation
+discards the attachments `Tooltip::applyTo()` collected on each preview,
+so `neo_tooltip/tooltip` is attached to `$form['image']` whenever at least
+one option was built. That is the element the AJAX callback returns, so
+the hover label on the URI still works after a rebuild.
+
 ## 1.0.18 — 2026-09-07
 
 - 📝 docs: document the changelog convention and link it from the README
